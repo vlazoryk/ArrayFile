@@ -11,6 +11,9 @@
 using namespace std;
 
 typedef double* pDouble;
+
+const int MAX_SIZE = 560;
+
 /*
 *   ConsoleInputArrayDouble
 *   
@@ -119,11 +122,12 @@ int ReadArrayTextFile(int n, double* arr, const char* fileName)
     if (size <= 0) return 0;
     if (size > n) size = n;   
     for (int i = 0; i < n; i++)
-       fin>> arr[i];
+       fin >> arr[i];
     fin.close();
     return size;
     
 }
+
 
 
 void WriteArrayBinFile(int n, double* arr, const char* fileName)
@@ -154,29 +158,33 @@ int ReadArrayBinFile(int n, double* arr, const char* fileName)
 void ShowMainMenu()
 {
     cout << "    Main Menu  \n";
-    cout << "    1.  Task 1  \n";
-    cout << "    2.  Task 2  \n";
-    cout << "    3.  Task 3  \n";
+    cout << "    1.  Завдання 1  \n";
+    cout << "    2.  Завдання 2  \n";
+    cout << "    3.  Завдання 3 \n";
+    cout << "    4.  cls (очищення екрану) \n";
+    cout << "    0.  Вихiд \n";
   }
 
 void MenuTask()
 {
-    cout << "     Menu Task   \n";
+    cout << "     Menu Task \n";
     cout << "    1.  Local array  \n";
     cout << "    2.  Dynamic array 1 \n";
     cout << "    3.  Dynamic array 2  new \n"; 
     cout << "    4.  Dynamic array : vector \n";
     cout << "    5.  Exit \n";
+    getchar();
 }
 
 void MenuInput()
 {
-    cout << "     Menu Input   \n";
+    cout << "     Menu Input \n";
     cout << "    1.  Console all \n";
     cout << "    2.  Console - size, array - random \n";
     cout << "    3.  File 1.txt \n";
     cout << "    4.  bb    \n";
     cout << "    5.  Exit \n";
+    getchar();
 }
 
 
@@ -242,16 +250,97 @@ void ArrayLocal()
 
 }
 
+void ArthurTask1() {
+    pDouble B; 
+    int m;
+    double sm=0, sp=0, smp=0;
+    B = new double[MAX_SIZE];
+    if (B == nullptr) { return; }
+    m = ReadArrayTextFile(MAX_SIZE, B, "D:\\task1.txt");
+    cout << " \n m= " << m << endl;
+    for (int i = 0; i < m; i++) {
+        cout << B[i] << "   ";
+        if (B[i] < 0) sm += B[i];
+        else sp += B[i];
+        smp = sp - sm;
+    }
+    cout << "\n рiзниця = " << smp << "\n\n";
+    
+    ofstream fout("D:\\task1out.txt");
+    if (fout.fail()) return;
+    fout << smp << endl;
+    fout.close();
+    
 
-int main()
-{ 
-    
-    
+}
+
+void ArthurTask2() {
+    pDouble B;
+    int m, i;
+    int k1 = 0, max = 0;
+    cout << "\n Введiть число кратностi: ";
+    cin >> k1;
+    B = new double[MAX_SIZE];
+    if (B == nullptr) { return; }
+    m = ReadArrayTextFile(MAX_SIZE, B, "D:\\task2.txt");
+    cout << " \n m= " << m << endl;
+    for (i = 0; i < m; i++) {
+        cout << B[i] << "   ";
+    }
+    i = 0;
+    do {
+        if ((int)B[i] % (int)k1 == 0){
+            if(max < B[i]) max = B[i];
+        }
+        i++;
+    } while (B[i] >= 0 && i<m);
+    cout << "\nmax= " << max << endl;
+
+    ofstream fout("D:\\task2out.txt");
+    if (fout.fail()) return;
+    fout << max << endl;
+    fout.close();
+
+
+}
+
+void ArthurTask3() {
+
+}
+
+
+
+
+int main(){
+    int m;
+    setlocale(LC_ALL, "RU");
     
     const int MAX_SIZE = 560;
-    std::cout << "Hello World!\n";
-    ShowMainMenu();
-    /*
+    do {
+        ShowMainMenu();
+        cin >> m;
+        switch (m)
+        {
+        case 1:
+            ArthurTask1();
+            break;
+        case 2:
+            ArthurTask2();
+            break;
+        case 3:
+            ArthurTask3();
+            break;
+        case 4:
+            system("cls");
+            break;
+        default:
+            break;
+
+        }
+    } while (m!=0);
+
+
+/*
     double A[MAX_SIZE], B[MAX_SIZE],C[MAX_SIZE];
     int n,m;
     n = RndInputArray(MAX_SIZE, A);
@@ -271,8 +360,8 @@ int main()
     for (auto v : vA) {
         cout << v << "   ";
     }
-*/
-    TaskV();
+    */
+   // TaskV();
     return 1;
 
 }

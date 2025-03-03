@@ -51,11 +51,18 @@ int RndInputArray(int sizeMax, double A[])
     srand(size);
 
     for (int i = 0; i < size; i++) {
-        r1 = rand();
+        if (i < size/2) A[i] = rand() % 100;
+        else {
+            r1 = rand() % 100;
+            r2 = rand() % 100;
+            A[i] = r1 - r2;
+
+        }
+      /* r1 = rand();
         r2 = rand();
         A[i] = 100.0 * r1;
         A[i] = A[i] / (1.0 + r2);
-        cout << A[i] << "   ";
+        cout << A[i] << "   ";*/
     }
     return size;
 }
@@ -158,21 +165,20 @@ int ReadArrayBinFile(int n, double* arr, const char* fileName)
 void ShowMainMenu()
 {
     cout << "    Main Menu  \n";
-    cout << "    1.  Завдання 1  \n";
-    cout << "    2.  Завдання 2  \n";
+    cout << "    1.  Завдання 1 \n";
+    cout << "    2.  Завдання 2 \n";
     cout << "    3.  Завдання 3 \n";
     cout << "    4.  cls (очищення екрану) \n";
+    cout << "    5.  Зчитування в контейнер \n";
     cout << "    0.  Вихiд \n";
   }
 
 void MenuTask()
 {
-    cout << "     Menu Task \n";
-    cout << "    1.  Local array  \n";
-    cout << "    2.  Dynamic array 1 \n";
-    cout << "    3.  Dynamic array 2  new \n"; 
-    cout << "    4.  Dynamic array : vector \n";
-    cout << "    5.  Exit \n";
+    cout << "    Генерацiя масиву \n";
+    cout << "    1.  a (Створення масиву з консолi) \n";
+    cout << "    2.  b (Створення масиву рандомно) \n";
+    cout << "    0.  Вихiд \n";
     getchar();
 }
 
@@ -256,7 +262,7 @@ void ArthurTask1() {
     double sm=0, sp=0, smp=0;
     B = new double[MAX_SIZE];
     if (B == nullptr) { return; }
-    m = ReadArrayTextFile(MAX_SIZE, B, "D:\\task1.txt");
+    m = ReadArrayTextFile(MAX_SIZE, B, "task.txt");
     cout << " \n m= " << m << endl;
     for (int i = 0; i < m; i++) {
         cout << B[i] << "   ";
@@ -266,7 +272,7 @@ void ArthurTask1() {
     }
     cout << "\n рiзниця = " << smp << "\n\n";
     
-    ofstream fout("D:\\task1out.txt");
+    ofstream fout("task1out.txt");
     if (fout.fail()) return;
     fout << smp << endl;
     fout.close();
@@ -282,7 +288,7 @@ void ArthurTask2() {
     cin >> k1;
     B = new double[MAX_SIZE];
     if (B == nullptr) { return; }
-    m = ReadArrayTextFile(MAX_SIZE, B, "D:\\task2.txt");
+    m = ReadArrayTextFile(MAX_SIZE, B, "task.txt");
     cout << " \n m= " << m << endl;
     for (i = 0; i < m; i++) {
         cout << B[i] << "   ";
@@ -296,7 +302,7 @@ void ArthurTask2() {
     } while (B[i] >= 0 && i<m);
     cout << "\nmax= " << max << endl;
 
-    ofstream fout("D:\\task2out.txt");
+    ofstream fout("task2out.txt");
     if (fout.fail()) return;
     fout << max << endl;
     fout.close();
@@ -305,6 +311,49 @@ void ArthurTask2() {
 }
 
 void ArthurTask3() {
+    pDouble B;
+    int C[400];
+    int m, n, i, j, l = 0, y;
+    B = new double[MAX_SIZE];
+    if (B == nullptr) { return; }
+    m = ReadArrayTextFile(MAX_SIZE, B, "task.txt");
+    cout << " \n m= " << m << endl;
+    for (i = 0; i < m; i++) {
+        cout << B[i] << "   ";
+    }
+    cout << "\n\n";
+    for (i = 0; i < m; i++) {
+        for (j = i+1; j < m; j++) {
+            if (B[i] == B[j]) {
+                y = 0;
+                for (n = 0; n < l; n++) {
+                    if (C[n] == B[j]) y = 1;
+
+                }
+                if (y == 0) {
+                    C[l] = B[i];
+                    l += 1; break;
+                }
+            }
+            else;
+        }
+    }
+    for (i = 0; i < l; i++) {
+        cout << C[i] << "   ";
+        if ((i+1) % 7 == 0) {
+            cout << endl;
+        }
+    }
+    cout << endl << endl;
+    ofstream fout("task3out.txt");
+    if (fout.fail()) return;
+    for (i = 0; i < l; i++) {
+        fout << C[i] << "   ";
+        if ((i + 1) % 7 == 0) {
+            fout << endl;
+        }
+    }
+    fout.close();
 
 }
 
@@ -312,13 +361,30 @@ void ArthurTask3() {
 
 
 int main(){
-    int m;
+    int size;
+    double d;
+    vector <double> A;
+    ifstream fin;
+    int m, t, s;
+    double B[MAX_SIZE];
     setlocale(LC_ALL, "RU");
     
-    const int MAX_SIZE = 560;
     do {
         ShowMainMenu();
         cin >> m;
+        if (m != 4 && m != 0 && m != 5) {
+            MenuTask();
+            cin >> t;
+            if (t == 1) {
+                s = ConsoleInputArray(MAX_SIZE, B);
+                WriteArrayTextFile(s, B, "task.txt");
+            }
+            if (t == 2) {
+                s = RndInputArray(MAX_SIZE, B);
+                // WriteArrayBinFile(s, B, "task.txt");
+                WriteArrayTextFile(s, B, "task.txt");
+            }
+        }
         switch (m)
         {
         case 1:
@@ -332,6 +398,23 @@ int main(){
             break;
         case 4:
             system("cls");
+            break;
+        case 5:
+            
+            fin.open("task.txt");
+            if (fin.fail()) break;
+            fin >> size;
+            if (size <= 0) break;
+            for (int i = 0; i < size; i++) {
+                fin >> d;
+                A.push_back(d);
+            }
+            fin.close();
+
+            for (int i = 0; i < A.size(); i++) {
+                cout << " " << A[i] << " ";
+            }
+            cout << "\n\n";
             break;
         default:
             break;

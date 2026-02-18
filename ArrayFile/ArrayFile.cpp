@@ -202,12 +202,12 @@ void  TestVariant(int N, double* A, double* B, double* C) {
 */
 void TaskV()
 {
-    char ch = '5';
+    char ch = '5',t;
     do {
         system("cls");
         MenuTask();
         ch = getchar();
-        getchar();
+        t=getchar();
             switch (ch) {
              case '1': cout << " 1 "; break;
              case '2': cout << " 2 "; break;
@@ -224,12 +224,12 @@ void ArrayLocal()
 {
     double A[1000], B[500], C[500];
     int n;
-    char ch = '5';
+    char ch = '5',t;
     do {
         system("cls");
         MenuTask();
         ch = getchar();
-        getchar();
+        t = getchar();
         switch (ch) {
         case '1': cout << " 1 "; break;
         case '2': cout << " 2 "; break;
